@@ -1,0 +1,10 @@
+/**
+ * @author <your-name-here>
+ * Matrikelnummer:
+ */
+
+public class DVD extends Artikel {
+	
+	private static final long serialVersionUID = 1L;
+	
+}
