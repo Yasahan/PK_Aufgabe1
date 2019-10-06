@@ -1,8 +1,8 @@
 import java.io.Serializable;
 
 /**
- * @author <your-name-here>
- * Matrikelnummer:
+ * @author Yasahan Zengin
+ * Matrikelnummer: 01367563
  */
 
 public abstract class Artikel implements Serializable {
@@ -13,5 +13,6 @@ public abstract class Artikel implements Serializable {
     private String publicationDate;
     private String publisher;
     private double price;
+    private String test;
 	
 }
