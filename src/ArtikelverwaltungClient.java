@@ -1,6 +1,6 @@
 /**
- * @author <your-name-here>
- * Matrikelnummer:
+ * @author Yasahan Zengin
+ * Matrikelnummer: 01367563
  */
 
 public class ArtikelverwaltungClient {
