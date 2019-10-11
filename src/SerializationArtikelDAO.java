@@ -9,23 +9,21 @@ import java.util.List;
 
 public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
+    private static ArrayList<Artikel> artikels;
+
+    public SerializationArtikelDAO() {
+        this.artikels = new ArrayList<Artikel>();
+    }
+
     @Override
-    public List<Artikel> getArtikel() throws IOException, ClassNotFoundException {
-
-        List tmp = new ArrayList();
-        FileInputStream fis = new FileInputStream("Artikel.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        tmp = (ArrayList) ois.readObject();
-        fis.close();
-        ois.close();
-
-        return tmp;
+    public ArrayList<Artikel> getArtikel() throws IOException, ClassNotFoundException {
+        return artikels;
     }
 
     @Override
     public Artikel getArtikel(int id) throws IOException, ClassNotFoundException {
-        List<Artikel> tmp = this.getArtikel();
-        for(Artikel art : tmp)
+
+        for(Artikel art : artikels)
             if(art.getId() == id)
                 return art;
         return null;
@@ -34,28 +32,26 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     @Override
     public void saveArtikel(Artikel artikel) throws IOException, ClassNotFoundException {
 
-        FileOutputStream fileOut = new FileOutputStream("Artikel.txt");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
         if(getArtikel(artikel.getId()) != null)
             throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
-
-        out.writeObject(artikel);
+        FileOutputStream fileOut = new FileOutputStream("Artikel.txt");
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        artikels.add(artikel);
+        out.writeObject(artikels);
         out.close();
     }
 
     @Override
     public void deleteArtikel(int id) throws IOException, ClassNotFoundException {
 
-        List<Artikel> tmp = this.getArtikel();
         if(getArtikel(id) == null)
             throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id="+ id + ">)");
         else
             {
-            tmp.remove(getArtikel(id));
+            artikels.remove(getArtikel(id));
             FileOutputStream fileOut = new FileOutputStream("Artikel.txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(tmp);
+            out.writeObject(artikels);
             out.close();
         }
     }
