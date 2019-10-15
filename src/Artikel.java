@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,7 +16,7 @@ public abstract class Artikel implements Serializable {
     private String publisher;
     private double price;
 
-    public int getId() {
+    int getId() {
         return Id;
     }
 
@@ -49,7 +48,7 @@ public abstract class Artikel implements Serializable {
         this.publisher = publisher;
     }
 
-    public double getPrice() {
+    double getPrice() {
         return price;
     }
 
@@ -57,7 +56,7 @@ public abstract class Artikel implements Serializable {
         this.price = price;
     }
 
-    public Artikel(int id, String titel, int publicationDate, String publisher, double price) throws ParseException {
+    Artikel(int id, String titel, int publicationDate, String publisher, double price) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy");
         Date date = new Date();
@@ -76,7 +75,7 @@ public abstract class Artikel implements Serializable {
             throw new IllegalArgumentException("Price connot be negativ");
     }
 
-   public int alter(){
+   int alter(){
        SimpleDateFormat format = new SimpleDateFormat("yyyy");
        Date date = new Date();
        String currDate = format.format(date);
@@ -84,9 +83,9 @@ public abstract class Artikel implements Serializable {
        return currentDate-publicationDate;
    }
 
-   public abstract double rabatt();
+   protected abstract double rabatt();
 
-   public double preis(){
+   double preis(){
         return price - rabatt();
    }
 

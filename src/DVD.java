@@ -1,6 +1,4 @@
 import java.text.DecimalFormat;
-import java.text.ParseException;
-
 
 /**
  * @author Yasahan Zengin
@@ -8,7 +6,7 @@ import java.text.ParseException;
  */
 
 public class DVD extends Artikel {
-	private static DecimalFormat doubleFormat = new DecimalFormat(".00");
+	private static final DecimalFormat doubleFormat = new DecimalFormat(".00");
 	private static final long serialVersionUID = 1L;
 	private int ageRating;
 	private int duration;
@@ -26,7 +24,7 @@ public class DVD extends Artikel {
 		return ageRating;
 	}
 
-	public DVD(int id, String titel, int publicationDate, String publisher, double price, int ageRating, int duration) throws ParseException {
+	public DVD(int id, String titel, int publicationDate, String publisher, double price, int ageRating, int duration) {
 		super(id, titel, publicationDate, publisher, price);
 		if(ageRating == 0 || ageRating == 6 ||ageRating == 12 ||ageRating == 16 ||ageRating == 18){
 			this.ageRating = ageRating;
@@ -60,7 +58,7 @@ public class DVD extends Artikel {
 	public String toString() {
 		return "Typ:           DVD" + "\n" +
 				super.toString() 		+ "\n" +
-				"Preis:         " + doubleFormat.format(this.preis()).toString().replace(',','.') + "\n" +
+				"Preis:         " + doubleFormat.format(this.preis()).replace(',','.') + "\n" +
 				"Dauer:         " + this.duration+ "\n" +
 				"Freigabe:       " + this.ageRating;
 	}

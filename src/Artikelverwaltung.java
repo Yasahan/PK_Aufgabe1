@@ -7,21 +7,21 @@ import java.util.List;
  */
  
 public class Artikelverwaltung {
-	private ArtikelDAO control;
+	private final ArtikelDAO control;
 
-    public Artikelverwaltung() {
+    Artikelverwaltung() {
 		control = new SerializationArtikelDAO();
     }
 
-    public void showArtikel(int id) throws IOException, ClassNotFoundException {
+    void showArtikel(int id) throws IOException, ClassNotFoundException {
 		System.out.println(control.getArtikel(id));
 	}
 
-	public void showAllArtikel() throws IOException, ClassNotFoundException {
+	void showAllArtikel() throws IOException, ClassNotFoundException {
 		for(Artikel art : control.getArtikel())
-			System.out.println(art);
+			System.out.println(art + "\n");
 	}
-	public void addArtikel(Artikel art) throws IOException, ClassNotFoundException {
+	void addArtikel(Artikel art) throws IOException, ClassNotFoundException {
 		control.saveArtikel(art);
 	}
 	public void deleteArtikel(int id) throws IOException, ClassNotFoundException {
@@ -39,7 +39,7 @@ public class Artikelverwaltung {
 		}
 		return count/tmp.size();
 	}
-	public int lastAddedArtikel() throws IOException, ClassNotFoundException {
+	int lastAddedArtikel() throws IOException, ClassNotFoundException {
     	return control.getArtikel().get(control.getArtikel().size()-1).getId();
 	}
 

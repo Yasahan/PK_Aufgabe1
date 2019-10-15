@@ -1,6 +1,4 @@
 import java.text.DecimalFormat;
-import java.text.ParseException;
-
 
 /**
  * @author Yasahan Zengin
@@ -8,11 +6,11 @@ import java.text.ParseException;
  */
 
 public class Buch extends Artikel {
-	private static DecimalFormat doubleFormat = new DecimalFormat(".00");
+	private static final DecimalFormat doubleFormat = new DecimalFormat(".00");
 	private static final long serialVersionUID = 1L;
 	private int pages;
 
-	public Buch(int id, String titel, int publicationDate, String publisher, double price, int pages) throws ParseException {
+	Buch(int id, String titel, int publicationDate, String publisher, double price, int pages) {
 		super(id, titel, publicationDate, publisher, price);
 		this.pages = pages;
 	}
@@ -48,7 +46,7 @@ public class Buch extends Artikel {
 	public String toString() {
 		return "Typ:           Buch" + "\n" +
 		super.toString() 		+ "\n" +
-		"Preis:         " + doubleFormat.format(this.preis()).toString().replace(',','.') + "\n" +
+		"Preis:         " + doubleFormat.format(this.preis()).replace(',','.') + "\n" +
 		"Seiten:        " + this.pages;
 	}
 }
