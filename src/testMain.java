@@ -14,7 +14,6 @@ public class testMain {
 //        DVD d1 = new DVD (1007, "Matrix", 2005, "Paradise", 15.99, 0,163);
 //        DVD d2 = new DVD (1008, "Hellboy", 2009, "Pixar", 15.99, 6,120);
 //        DVD d3 = new DVD (1009, "The Godfather", 1972, "Cinema Italia", 25.99, 18,180);
-//        Artikelverwaltung control = new Artikelverwaltung("Artikel.txt");
 //        // Test Case: Add Products
 //        control.addArtikel(b);
 //        control.addArtikel(b2);

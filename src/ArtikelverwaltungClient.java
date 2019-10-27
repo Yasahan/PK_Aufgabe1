@@ -1,6 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 /**
  * @author Yasahan Zengin
@@ -21,22 +19,13 @@ public class ArtikelverwaltungClient {
         }
         else
         {
+            control = new Artikelverwaltung(dataName);
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             fileOut.close();
             out.close();
-            control = new Artikelverwaltung(dataName);
         }
 
-        Buch b = new Buch(1001, "Ein ganzes Leben", 2014, "Hanser", 17.99, 1255);
-        Buch b1 = new Buch(1002, "Fortnite", 2016, "Epic Games", 11.28, 288);
-        Buch b2 = new Buch(1003, "TestBuch", 2016, "Epic Games", 11.28, 288);
-
-        //new Buch(Integer.parseInt(args[3]), args[4], Integer.parseInt(args[5]), args[6], Double.parseDouble(args[7]), Integer.parseInt(args[8]))
-
-        control.deleteArtikel(1002);
-
-/*
         if(args[1].equals("add")){
             if(args[2].equals("buch")){
                 control.addArtikel(new Buch(Integer.parseInt(args[3]), args[4], Integer.parseInt(args[5]), args[6], Double.parseDouble(args[7]), Integer.parseInt(args[8])));
@@ -49,7 +38,7 @@ public class ArtikelverwaltungClient {
             control.showAllArtikel();
         }
         if(args[1].equals("delete")){
-            control.deleteArtikel(1002);
+            control.deleteArtikel(Integer.parseInt(args[2]));
         }
         if(args[1].equals("count")){
             System.out.println(control.artikelAmount());
@@ -59,6 +48,6 @@ public class ArtikelverwaltungClient {
         }
         if(args[1].equals("oldest")){
             //TODO
-        }*/
+        }
     }
 }

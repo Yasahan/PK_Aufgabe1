@@ -28,6 +28,11 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     @Override @SuppressWarnings("unchecked")
     public ArrayList<Artikel> getArtikel() {
 
+        if(artikels == null){
+            System.out.println("No Product found");
+            return null;
+        }
+
         try{
             FileInputStream fis = new FileInputStream(dataName);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -52,17 +57,18 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     @Override
     public void saveArtikel(Artikel artikel) throws IOException {
 
+        artikels = getArtikel();
+
         if(!artikels.isEmpty()){
-            artikels = getArtikel();
             if(getArtikel(artikel.getId()) != null)
                 throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
         }
-
         try{
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             artikels.add(artikel);
             out.writeObject(artikels);
+            System.out.println("Info: Artikel " + artikel.getId() +  " added.");
             fileOut.close();
             out.close();
         } catch (IOException e) {
@@ -72,13 +78,11 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
     @Override
     public void deleteArtikel(int id) throws IOException {
-
         artikels = getArtikel();
-        System.out.println("Checkpoint 1");
-        if(getArtikel(id) == null)
+        if(getArtikel(id) == null){
             throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id="+ id + ">)");
-        else
-            {
+        }
+        else {
             artikels.remove(getArtikel(id));
             try{
                 FileOutputStream fileOut = new FileOutputStream(dataName);
@@ -90,5 +94,6 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
                 e.printStackTrace();
             }
             }
+        System.out.println("Product: " + id + " deleted!");
     }
 }
