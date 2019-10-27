@@ -9,8 +9,9 @@ import java.util.List;
 public class Artikelverwaltung {
 	private final ArtikelDAO control;
 
-    Artikelverwaltung() {
-		control = new SerializationArtikelDAO();
+
+    Artikelverwaltung(String name) throws IOException {
+    	control = new SerializationArtikelDAO(name);
     }
 
     void showArtikel(int id) throws IOException, ClassNotFoundException {
@@ -42,6 +43,7 @@ public class Artikelverwaltung {
 	int lastAddedArtikel() throws IOException, ClassNotFoundException {
     	return control.getArtikel().get(control.getArtikel().size()-1).getId();
 	}
+
 
 
 

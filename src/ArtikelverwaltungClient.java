@@ -1,3 +1,7 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * @author Yasahan Zengin
  * Matrikelnummer: 01367563
@@ -5,14 +9,56 @@
 
 public class ArtikelverwaltungClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        Artikelverwaltung control = new Artikelverwaltung();
-        System.out.println(args[1]);
+        Artikelverwaltung control = null;
+        String dataName = args[0];
+        File f = new File(dataName);
 
-//        switch(args[0]){
-//            case "Artikel.txt":
-//                control.addArtikel((Artikel)args[1]);
+        if(f.isFile() && f.canRead()){
+            System.out.println("File opening...");
+            control = new Artikelverwaltung(dataName);
+        }
+        else
+        {
+            FileOutputStream fileOut = new FileOutputStream(dataName);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            fileOut.close();
+            out.close();
+            control = new Artikelverwaltung(dataName);
         }
 
+        Buch b = new Buch(1001, "Ein ganzes Leben", 2014, "Hanser", 17.99, 1255);
+        Buch b1 = new Buch(1002, "Fortnite", 2016, "Epic Games", 11.28, 288);
+        Buch b2 = new Buch(1003, "TestBuch", 2016, "Epic Games", 11.28, 288);
+
+        //new Buch(Integer.parseInt(args[3]), args[4], Integer.parseInt(args[5]), args[6], Double.parseDouble(args[7]), Integer.parseInt(args[8]))
+
+        control.deleteArtikel(1002);
+
+/*
+        if(args[1].equals("add")){
+            if(args[2].equals("buch")){
+                control.addArtikel(new Buch(Integer.parseInt(args[3]), args[4], Integer.parseInt(args[5]), args[6], Double.parseDouble(args[7]), Integer.parseInt(args[8])));
+            }
+            if(args[2].equals("dvd")){
+
+            }
+        }
+        if(args[1].equals("list")){
+            control.showAllArtikel();
+        }
+        if(args[1].equals("delete")){
+            control.deleteArtikel(1002);
+        }
+        if(args[1].equals("count")){
+            System.out.println(control.artikelAmount());
+        }
+        if(args[1].equals("meanprice")){
+            //TODO
+        }
+        if(args[1].equals("oldest")){
+            //TODO
+        }*/
+    }
 }

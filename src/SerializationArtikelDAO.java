@@ -9,13 +9,34 @@ import java.util.ArrayList;
 public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
     private static ArrayList<Artikel> artikels;
+    private String dataName;
 
-    SerializationArtikelDAO() {
-        artikels = new ArrayList<>();
+
+    SerializationArtikelDAO(String name) throws IOException {
+        dataName = name;
+        artikels = new ArrayList<Artikel>();
     }
 
-    @Override
+    public String getDataName() {
+        return dataName;
+    }
+
+    public void setDataName(String dataName) {
+        this.dataName = dataName;
+    }
+
+    @Override @SuppressWarnings("unchecked")
     public ArrayList<Artikel> getArtikel() {
+
+        try{
+            FileInputStream fis = new FileInputStream(dataName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            artikels = (ArrayList<Artikel>) ois.readObject();
+            fis.close();
+            ois.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return artikels;
     }
 
@@ -31,29 +52,43 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     @Override
     public void saveArtikel(Artikel artikel) throws IOException {
 
-        if(getArtikel(artikel.getId()) != null)
-            throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
-        FileOutputStream fileOut = new FileOutputStream("Artikel.txt");
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        artikels.add(artikel);
-        out.writeObject(artikels);
-        fileOut.close();
-        out.close();
+        if(!artikels.isEmpty()){
+            artikels = getArtikel();
+            if(getArtikel(artikel.getId()) != null)
+                throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
+        }
+
+        try{
+            FileOutputStream fileOut = new FileOutputStream(dataName);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            artikels.add(artikel);
+            out.writeObject(artikels);
+            fileOut.close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void deleteArtikel(int id) throws IOException {
 
+        artikels = getArtikel();
+        System.out.println("Checkpoint 1");
         if(getArtikel(id) == null)
             throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id="+ id + ">)");
         else
             {
             artikels.remove(getArtikel(id));
-            FileOutputStream fileOut = new FileOutputStream("Artikel.txt");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(artikels);
-            fileOut.close();
-            out.close();
-        }
+            try{
+                FileOutputStream fileOut = new FileOutputStream(dataName);
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(artikels);
+                fileOut.close();
+                out.close();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            }
     }
 }
