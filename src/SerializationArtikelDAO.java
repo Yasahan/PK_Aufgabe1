@@ -17,11 +17,18 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
         artikels = new ArrayList<Artikel>();
         setArtikel();
     }
+
     @SuppressWarnings("unchecked")
     private void setArtikel() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream(dataName);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        artikels = (ArrayList<Artikel>) ois.readObject();
+        try{
+            FileInputStream fis = new FileInputStream(dataName);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            artikels = (ArrayList<Artikel>) ois.readObject();
+            fis.close();
+            ois.close();
+        }catch (IOException e) {
+            e.getMessage();
+        }
     }
 
     public String getDataName() {
@@ -32,37 +39,27 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
         this.dataName = dataName;
     }
 
-    @Override @SuppressWarnings("unchecked")
+    @Override
     public ArrayList<Artikel> getArtikel() {
-
-        try{
-            FileInputStream fis = new FileInputStream(dataName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            artikels = (ArrayList<Artikel>) ois.readObject();
-            fis.close();
-            ois.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         return artikels;
     }
 
     @Override
     public Artikel getArtikel(int id) {
 
-        for(Artikel art : artikels)
-            if(art.getId() == id)
-                return art;
+        if(artikels != null){
+            for(Artikel art : artikels)
+                if(art.getId() == id)
+                    return art;
+        }
         return null;
     }
 
     @Override
-    public void saveArtikel(Artikel artikel) throws IOException {
-
+    public void saveArtikel(Artikel artikel)  {
 
         if(getArtikel(artikel.getId()) != null)
             throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
-
         try{
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -77,7 +74,7 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     }
 
     @Override
-    public void deleteArtikel(int id) throws IOException {
+    public void deleteArtikel(int id) {
 
         if(getArtikel(id) == null){
             throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id="+ id + ">)");
@@ -93,7 +90,7 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
             }catch (IOException e) {
                 e.printStackTrace();
             }
-            }
+        }
         System.out.println("Product: " + id + " deleted!");
     }
 }

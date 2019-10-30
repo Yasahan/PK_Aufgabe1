@@ -12,7 +12,7 @@ public interface ArtikelDAO {
 
 	Artikel getArtikel(int id);
 	
-	void saveArtikel(Artikel artikel) throws IOException;
+	void saveArtikel(Artikel artikel);
 
-	void deleteArtikel(int id) throws IOException;
+	void deleteArtikel(int id);
 }

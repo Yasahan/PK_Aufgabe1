@@ -5,16 +5,16 @@ import java.util.List;
  * @author Yasahan Zengin
  * Matrikelnummer: 01367563
  */
- 
+
 public class Artikelverwaltung {
 	private final ArtikelDAO control;
 
 
-    Artikelverwaltung(String name) throws IOException, ClassNotFoundException {
-    	control = new SerializationArtikelDAO(name);
-    }
+	Artikelverwaltung(String name) throws IOException, ClassNotFoundException {
+		control = new SerializationArtikelDAO(name);
+	}
 
-    void showArtikel(int id) throws IOException, ClassNotFoundException {
+	void showArtikel(int id) throws IOException, ClassNotFoundException {
 		System.out.println(control.getArtikel(id));
 	}
 
@@ -41,7 +41,7 @@ public class Artikelverwaltung {
 		return count/tmp.size();
 	}
 	int lastAddedArtikel() throws IOException, ClassNotFoundException {
-    	return control.getArtikel().get(control.getArtikel().size()-1).getId();
+		return control.getArtikel().get(control.getArtikel().size()-1).getId();
 	}
 
 
