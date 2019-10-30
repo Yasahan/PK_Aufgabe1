@@ -12,9 +12,16 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     private String dataName;
 
 
-    SerializationArtikelDAO(String name) throws IOException {
+    SerializationArtikelDAO(String name) throws IOException, ClassNotFoundException {
         dataName = name;
         artikels = new ArrayList<Artikel>();
+        setArtikel();
+    }
+    @SuppressWarnings("unchecked")
+    private void setArtikel() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(dataName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        artikels = (ArrayList<Artikel>) ois.readObject();
     }
 
     public String getDataName() {
@@ -27,11 +34,6 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
     @Override @SuppressWarnings("unchecked")
     public ArrayList<Artikel> getArtikel() {
-
-        if(artikels == null){
-            System.out.println("No Product found");
-            return null;
-        }
 
         try{
             FileInputStream fis = new FileInputStream(dataName);
@@ -57,12 +59,10 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     @Override
     public void saveArtikel(Artikel artikel) throws IOException {
 
-        artikels = getArtikel();
 
-        if(!artikels.isEmpty()){
-            if(getArtikel(artikel.getId()) != null)
-                throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
-        }
+        if(getArtikel(artikel.getId()) != null)
+            throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
+
         try{
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -78,7 +78,7 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
     @Override
     public void deleteArtikel(int id) throws IOException {
-        artikels = getArtikel();
+
         if(getArtikel(id) == null){
             throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id="+ id + ">)");
         }

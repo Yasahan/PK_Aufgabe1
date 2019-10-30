@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * @author Yasahan Zengin
@@ -11,14 +12,19 @@ public class ArtikelverwaltungClient {
 
         Artikelverwaltung control = null;
         String dataName = args[0];
+        ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
+
+
+
         File f = new File(dataName);
 
-        if(f.isFile() && f.canRead()){
-            System.out.println("File opening...");
+        if (f.isFile() && f.canRead()) {
+            System.out.println("Existing file opening...");
             control = new Artikelverwaltung(dataName);
-        }
-        else
-        {
+
+
+        } else {
+            System.out.println("New File created: " + dataName);
             control = new Artikelverwaltung(dataName);
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -26,28 +32,45 @@ public class ArtikelverwaltungClient {
             out.close();
         }
 
-        if(args[1].equals("add")){
-            if(args[2].equals("buch")){
-                control.addArtikel(new Buch(Integer.parseInt(args[3]), args[4], Integer.parseInt(args[5]), args[6], Double.parseDouble(args[7]), Integer.parseInt(args[8])));
-            }
-            if(args[2].equals("dvd")){
+        switch (args[1]) {
+            case "add":
+                switch(args[2]){
+                    case "buch":
+                        int id = Integer.parseInt(args[3]);
+                        String titel = args[4];
+                        String publisher = args[5];
+                        int publicationDate = Integer.parseInt(args[6]);
+                        double price = Double.parseDouble(args[7]);
+                        int pages = Integer.parseInt(args[8]);
+                        control.addArtikel(new Buch(id, titel, publisher, publicationDate, price, pages));
+                        break;
+                    case "dvd":
+                         id = Integer.parseInt(args[3]);
+                         titel = args[4];
+                         publisher = args[5];
+                         publicationDate = Integer.parseInt(args[6]);
+                         price = Double.parseDouble(args[7]);
+                         int duration = Integer.parseInt(args[8]);
+                         int ageRating = Integer.parseInt(args[9]);
+                        control.addArtikel(new DVD(id, titel, publisher, publicationDate, price, duration, ageRating));
+                        break;
+                }
+            case "list":
+                control.showAllArtikel();
+                break;
+            case "delete":
+                control.deleteArtikel(Integer.parseInt(args[2]));
+                break;
+            case "count":
+                System.out.println(control.artikelAmount());
+                break;
+            case "meanprice":
+                control.averagePrice();
+                break;
+            case "oldest":
+                //TODO
+                break;
 
-            }
-        }
-        if(args[1].equals("list")){
-            control.showAllArtikel();
-        }
-        if(args[1].equals("delete")){
-            control.deleteArtikel(Integer.parseInt(args[2]));
-        }
-        if(args[1].equals("count")){
-            System.out.println(control.artikelAmount());
-        }
-        if(args[1].equals("meanprice")){
-            //TODO
-        }
-        if(args[1].equals("oldest")){
-            //TODO
         }
     }
 }

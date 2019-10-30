@@ -10,7 +10,7 @@ public class Buch extends Artikel {
 	private static final long serialVersionUID = 1L;
 	private int pages;
 
-	Buch(int id, String titel, int publicationDate, String publisher, double price, int pages) {
+	Buch(int id, String titel, String publisher, int publicationDate,  double price, int pages) {
 		super(id, titel, publicationDate, publisher, price);
 		this.pages = pages;
 	}

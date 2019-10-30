@@ -24,7 +24,7 @@ public class DVD extends Artikel {
 		return ageRating;
 	}
 
-	public DVD(int id, String titel, int publicationDate, String publisher, double price, int ageRating, int duration) {
+	public DVD(int id, String titel, String publisher, int publicationDate,  double price, int duration, int ageRating) {
 		super(id, titel, publicationDate, publisher, price);
 		if(ageRating == 0 || ageRating == 6 ||ageRating == 12 ||ageRating == 16 ||ageRating == 18){
 			this.ageRating = ageRating;

@@ -10,7 +10,7 @@ public class Artikelverwaltung {
 	private final ArtikelDAO control;
 
 
-    Artikelverwaltung(String name) throws IOException {
+    Artikelverwaltung(String name) throws IOException, ClassNotFoundException {
     	control = new SerializationArtikelDAO(name);
     }
 
@@ -43,6 +43,8 @@ public class Artikelverwaltung {
 	int lastAddedArtikel() throws IOException, ClassNotFoundException {
     	return control.getArtikel().get(control.getArtikel().size()-1).getId();
 	}
+
+
 
 
 
