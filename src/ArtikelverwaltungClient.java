@@ -10,12 +10,8 @@ public class ArtikelverwaltungClient {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        Artikelverwaltung control = null;
+        Artikelverwaltung control;
         String dataName = args[0];
-        ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
-
-
-
         File f = new File(dataName);
 
         if (f.isFile() && f.canRead()) {
@@ -25,9 +21,9 @@ public class ArtikelverwaltungClient {
 
         } else {
             System.out.println("New File created: " + dataName);
-            control = new Artikelverwaltung(dataName);
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            control = new Artikelverwaltung(dataName);
             fileOut.close();
             out.close();
         }
@@ -55,6 +51,7 @@ public class ArtikelverwaltungClient {
                         control.addArtikel(new DVD(id, titel, publisher, publicationDate, price, duration, ageRating));
                         break;
                 }
+                break;
             case "list":
                 control.showAllArtikel();
                 break;
@@ -65,10 +62,10 @@ public class ArtikelverwaltungClient {
                 System.out.println(control.artikelAmount());
                 break;
             case "meanprice":
-                control.averagePrice();
+                System.out.println(control.averagePrice());
                 break;
             case "oldest":
-                //TODO
+                System.out.println(control.lastAddedArtikel());
                 break;
 
         }

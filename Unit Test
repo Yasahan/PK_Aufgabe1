@@ -1,0 +1,57 @@
+Unit Test PLC Artikelverwaltung
+
+cd C:\Users\yasah\IdeaProjects\PK_Aufgabe1\src
+
+javac ArtikelverwaltungClient.java
+
+java ArtikelverwaltungClient Artikel.txt list
+
+java ArtikelverwaltungClient Artikel.txt add buch 1001 "The Titel 1" Verlag1 2011 15.25 256
+java ArtikelverwaltungClient Artikel.txt add buch 1002 "The Titel 2" Verlag2 2012 16.25 296
+java ArtikelverwaltungClient Artikel.txt add buch 1003 "The Titel 3" Verlag3 2013 17.25 286
+java ArtikelverwaltungClient Artikel.txt add buch 1004 "The Titel 4" Verlag4 2015 18.25 276
+java ArtikelverwaltungClient Artikel.txt add dvd 1005 "The DVD Titel 1" Verlag5 2016 28.25 130 16
+java ArtikelverwaltungClient Artikel.txt add dvd 1006 "The DVD Titel 2" Verlag6 2017 38.25 130 18
+java ArtikelverwaltungClient Artikel.txt add dvd 1007 "The DVD Titel 3" Verlag7 2018 19.25 130 6
+java ArtikelverwaltungClient Artikel.txt add dvd 1008 "The DVD Titel 3" und das Gaset" Verlag7 2018 19.25 130 6
+
+java ArtikelverwaltungClient Artikel.txt count
+
+java ArtikelverwaltungClient Artikel.txt meanprice
+
+java ArtikelverwaltungClient Artikel.txt oldest
+
+java ArtikelverwaltungClient Artikel.txt delete 1001
+java ArtikelverwaltungClient Artikel.txt delete 1002
+java ArtikelverwaltungClient Artikel.txt delete 1003
+java ArtikelverwaltungClient Artikel.txt delete 1004
+java ArtikelverwaltungClient Artikel.txt delete 1005
+java ArtikelverwaltungClient Artikel.txt delete 1006
+java ArtikelverwaltungClient Artikel.txt delete 1007
+
+######################################################  Fehlermeldungen  ######################################################
+
+java ArtikelverwaltungClient Artikel.txt add buch 1003 TheTitel3 Verlag3 2013 17.25 286
+java ArtikelverwaltungClient Artikel.txt add buch 1004 TheTitel4 Verlag4 2015 18.25 276
+
+java ArtikelverwaltungClient Artikel.txt delete 2005
+java ArtikelverwaltungClient Artikel.txt delete 3006
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
