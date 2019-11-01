@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * @author Yasahan Zengin
@@ -19,7 +20,7 @@ public class ArtikelverwaltungClient {
         else {
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(null);
+            out.writeObject(new ArrayList<Artikel>());
             control = new Artikelverwaltung(dataName);
             fileOut.close();
             out.close();
@@ -36,15 +37,19 @@ public class ArtikelverwaltungClient {
                         double price = Double.parseDouble(args[7]);
                         int pages = Integer.parseInt(args[8]);
                         control.addArtikel(new Buch(id, titel, publisher, publicationDate, price, pages));
+                        control.showAllArtikel();
+                        System.out.println(control.artikelAmount());
+                        control.lastAddedArtikel();
+                        System.out.println(control.averagePrice());
                         break;
                     case "dvd":
-                        id = Integer.parseInt(args[3]);
-                        titel = args[4];
-                        publisher = args[5];
-                        publicationDate = Integer.parseInt(args[6]);
-                        price = Double.parseDouble(args[7]);
-                        int duration = Integer.parseInt(args[8]);
-                        int ageRating = Integer.parseInt(args[9]);
+                         id = Integer.parseInt(args[3]);
+                         titel = args[4];
+                         publisher = args[5];
+                         publicationDate = Integer.parseInt(args[6]);
+                         price = Double.parseDouble(args[7]);
+                         int duration = Integer.parseInt(args[8]);
+                         int ageRating = Integer.parseInt(args[9]);
                         control.addArtikel(new DVD(id, titel, publisher, publicationDate, price, duration, ageRating));
                         break;
                 }
@@ -67,7 +72,7 @@ public class ArtikelverwaltungClient {
                 System.out.println(control.averagePrice());
                 break;
             case "oldest":
-                System.out.println(control.lastAddedArtikel());
+                control.lastAddedArtikel();
                 break;
         }
     }

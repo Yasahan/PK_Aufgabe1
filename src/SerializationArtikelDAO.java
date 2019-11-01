@@ -12,19 +12,16 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     private static List<Artikel> articles;
     private String dataName;
 
-
     SerializationArtikelDAO(String name) throws IOException, ClassNotFoundException {
         dataName = name;
-        articles = new ArrayList<Artikel>();
+        articles = new ArrayList<>();
         loadArticles();
     }
 
     @SuppressWarnings("unchecked")
     private void loadArticles() throws IOException, ClassNotFoundException {
         try (FileInputStream fis = new FileInputStream(dataName); ObjectInputStream ois = new ObjectInputStream(fis)) {
-            if(ois.readObject() != null){
-                articles = (ArrayList<Artikel>) ois.readObject();
-            }
+            articles = (ArrayList<Artikel>) ois.readObject();
         } catch (IOException e) {
             e.getMessage();
         }
@@ -40,6 +37,9 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
     @Override
     public List<Artikel> getArtikel() {
+        if(articles == null){
+            throw new IllegalArgumentException("Articles is null!");
+        }
         return articles;
     }
 
@@ -50,12 +50,10 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
     @Override
     public void saveArtikel(Artikel artikel) {
-
         if (getArtikel(artikel.getId()) != null)
             throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id=" + artikel.getId() + ">)");
-
         articles.add(artikel);
-        saveArticlesList(articles);
+        saveArticlesList();
         System.out.println("Info: Artikel " + artikel.getId() + " added.");
     }
 
@@ -65,11 +63,11 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
             throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id=" + id + ">)");
         }
         articles.remove(getArtikel(id));
-        saveArticlesList(articles);
+        saveArticlesList();
         System.out.println("Info: Artikel " +  id +  " deleted.");
     }
 
-    private void saveArticlesList(List<Artikel> artikelList) {
+    private void saveArticlesList() {
         FileOutputStream fileOut = null;
         ObjectOutputStream out = null;
         try {

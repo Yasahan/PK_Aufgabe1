@@ -21,6 +21,7 @@ public class Artikelverwaltung {
 	}
 
 	void showAllArtikel() throws IOException, ClassNotFoundException {
+
 		if(control.getArtikel() == null){
 			return;
 		}
@@ -43,7 +44,8 @@ public class Artikelverwaltung {
 	String averagePrice() throws IOException, ClassNotFoundException {
 
 		List<Artikel> tmp = control.getArtikel();
-		if(control.getArtikel() == null){
+
+		if(control.getArtikel().size() == 0){
 			return "0.00";
 		}
 		else{
@@ -54,12 +56,9 @@ public class Artikelverwaltung {
 			return doubleFormat.format(count/tmp.size());
 		}
 	}
-	String lastAddedArtikel() throws IOException, ClassNotFoundException {
-		if(control.getArtikel() == null){
-            return "";
-		}
-		else{
-			return Integer.toString(control.getArtikel().get(control.getArtikel().size()-1).getId());
+	void lastAddedArtikel() throws IOException, ClassNotFoundException {
+		if(control.getArtikel().size() != 0){
+			System.out.println(control.getArtikel().get(control.getArtikel().size() - 1).getId());
 		}
 	}
 }

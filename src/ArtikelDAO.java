@@ -3,7 +3,6 @@
  * Matrikelnummer: 01367563
  */
 
-import java.io.IOException;
 import java.util.List;
 
 public interface ArtikelDAO {
