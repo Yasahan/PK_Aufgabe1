@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -8,6 +9,7 @@ import java.util.List;
 
 public class Artikelverwaltung {
 	private final ArtikelDAO control;
+    private static final DecimalFormat doubleFormat = new DecimalFormat(".00");
 
 
 	Artikelverwaltung(String name) throws IOException, ClassNotFoundException {
@@ -19,35 +21,45 @@ public class Artikelverwaltung {
 	}
 
 	void showAllArtikel() throws IOException, ClassNotFoundException {
+		if(control.getArtikel() == null){
+			return;
+		}
 		for(Artikel art : control.getArtikel())
 			System.out.println(art + "\n");
 	}
 	void addArtikel(Artikel art) throws IOException, ClassNotFoundException {
 		control.saveArtikel(art);
 	}
-	public void deleteArtikel(int id) throws IOException, ClassNotFoundException {
+	void deleteArtikel(int id) throws IOException, ClassNotFoundException {
 		control.deleteArtikel(id);
 	}
-	public int artikelAmount() throws IOException, ClassNotFoundException {
-		List<Artikel> tmp = control.getArtikel();
-		return tmp.size();
-	}
-	public double averagePrice() throws IOException, ClassNotFoundException {
-		List<Artikel> tmp = control.getArtikel();
-		double count = 0;
-		for(Artikel art : tmp){
-			count += art.getPrice();
+	int artikelAmount() throws IOException, ClassNotFoundException {
+		if(control.getArtikel() == null){
+			return 0;
+		}else{
+			return control.getArtikel().size();
 		}
-		return count/tmp.size();
 	}
-	int lastAddedArtikel() throws IOException, ClassNotFoundException {
-		return control.getArtikel().get(control.getArtikel().size()-1).getId();
+	String averagePrice() throws IOException, ClassNotFoundException {
+
+		List<Artikel> tmp = control.getArtikel();
+		if(control.getArtikel() == null){
+			return "0.00";
+		}
+		else{
+			double count = 0;
+			for(Artikel art : tmp){
+				count += art.preis();
+			}
+			return doubleFormat.format(count/tmp.size());
+		}
 	}
-
-
-
-
-
-
-
+	String lastAddedArtikel() throws IOException, ClassNotFoundException {
+		if(control.getArtikel() == null){
+            return "";
+		}
+		else{
+			return Integer.toString(control.getArtikel().get(control.getArtikel().size()-1).getId());
+		}
+	}
 }

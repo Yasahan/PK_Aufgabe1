@@ -86,15 +86,15 @@ public abstract class Artikel implements Serializable {
    protected abstract double rabatt();
 
    double preis(){
-        return price - rabatt();
+        return price - (price*(rabatt()/100));
    }
 
     @Override
     public String toString() {
-        return  "Id:            " + Id + "\n" +
-                "Titel:         " + titel + "\n" +
-                "Jahr:          " + publicationDate + "\n" +
-                "Verlag:        " + publisher + "\n" +
-                "Grundpreis:    " + price;
+        return  "Id:         " + Id + "\n" +
+                "Titel:      " + titel + "\n" +
+                "Jahr:       " + publicationDate + "\n" +
+                "Verlag:     " + publisher + "\n" +
+                "Grundpreis: " + price;
     }
 }

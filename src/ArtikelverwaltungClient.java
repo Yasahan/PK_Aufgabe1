@@ -1,6 +1,5 @@
 import java.io.*;
 
-
 /**
  * @author Yasahan Zengin
  * Matrikelnummer: 01367563
@@ -10,19 +9,14 @@ public class ArtikelverwaltungClient {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-
         Artikelverwaltung control;
         String dataName = args[0];
-
         File f = new File(dataName);
 
         if (f.isFile() && f.canRead()) {
-            System.out.println("Existing file opening...");
             control = new Artikelverwaltung(dataName);
-
-
-        } else {
-            System.out.println("New File created: " + dataName);
+        }
+        else {
             FileOutputStream fileOut = new FileOutputStream(dataName);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(null);
@@ -56,7 +50,12 @@ public class ArtikelverwaltungClient {
                 }
                 break;
             case "list":
-                control.showAllArtikel();
+                if(args.length != 3){
+                    control.showAllArtikel();
+                }
+                else{
+                    control.showArtikel(Integer.parseInt(args[2]));
+                }
                 break;
             case "delete":
                 control.deleteArtikel(Integer.parseInt(args[2]));
@@ -70,9 +69,6 @@ public class ArtikelverwaltungClient {
             case "oldest":
                 System.out.println(control.lastAddedArtikel());
                 break;
-
-
-
         }
     }
 }

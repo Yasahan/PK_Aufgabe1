@@ -25,28 +25,25 @@ public class Buch extends Artikel {
 
 	@Override
 	public double rabatt() {
+
 		double rabatt = 0;
+
 		int alter = this.alter();
+
 		if(alter > 0 && alter <= 6){
 			rabatt = alter*5;
-		}
-		else if(alter == 0 && this.pages <= 1000){
-			return rabatt;
-		}
-		else{
-			rabatt = 30;
 		}
 		if(this.pages > 1000){
 			rabatt += 3;
 		}
-		return this.getPrice()*(rabatt/100);
+		return rabatt;
 	}
 
 	@Override
 	public String toString() {
-		return "Typ:           Buch" + "\n" +
-		super.toString() 		+ "\n" +
-		"Preis:         " + doubleFormat.format(this.preis()).replace(',','.') + "\n" +
-		"Seiten:        " + this.pages;
+		return "Typ:        Buch" + "\n" +
+				super.toString() 		+ "\n" +
+				"Preis:      " + doubleFormat.format(this.preis()).replace(',','.') + "\n" +
+				"Seiten:     " + this.pages;
 	}
 }

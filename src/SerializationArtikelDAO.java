@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Yasahan Zengin
@@ -8,25 +9,23 @@ import java.util.ArrayList;
 
 public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
 
-    private static ArrayList<Artikel> artikels;
+    private static List<Artikel> articles;
     private String dataName;
 
 
     SerializationArtikelDAO(String name) throws IOException, ClassNotFoundException {
         dataName = name;
-        artikels = new ArrayList<Artikel>();
-        setArtikel();
+        articles = new ArrayList<Artikel>();
+        loadArticles();
     }
 
     @SuppressWarnings("unchecked")
-    private void setArtikel() throws IOException, ClassNotFoundException {
-        try{
-            FileInputStream fis = new FileInputStream(dataName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            artikels = (ArrayList<Artikel>) ois.readObject();
-            fis.close();
-            ois.close();
-        }catch (IOException e) {
+    private void loadArticles() throws IOException, ClassNotFoundException {
+        try (FileInputStream fis = new FileInputStream(dataName); ObjectInputStream ois = new ObjectInputStream(fis)) {
+            if(ois.readObject() != null){
+                articles = (ArrayList<Artikel>) ois.readObject();
+            }
+        } catch (IOException e) {
             e.getMessage();
         }
     }
@@ -40,57 +39,58 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     }
 
     @Override
-    public ArrayList<Artikel> getArtikel() {
-        return artikels;
+    public List<Artikel> getArtikel() {
+        return articles;
     }
 
     @Override
     public Artikel getArtikel(int id) {
-
-        if(artikels != null){
-            for(Artikel art : artikels)
-                if(art.getId() == id)
-                    return art;
-        }
-        return null;
+        return articles.stream().filter(artikel -> artikel.getId() == id).findFirst().orElse(null);
     }
 
     @Override
-    public void saveArtikel(Artikel artikel)  {
+    public void saveArtikel(Artikel artikel) {
 
-        if(getArtikel(artikel.getId()) != null)
-            throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id="+ artikel.getId() + ">)");
-        try{
-            FileOutputStream fileOut = new FileOutputStream(dataName);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            artikels.add(artikel);
-            out.writeObject(artikels);
-            System.out.println("Info: Artikel " + artikel.getId() +  " added.");
-            fileOut.close();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (getArtikel(artikel.getId()) != null)
+            throw new IllegalArgumentException("Error: Artikel bereits vorhanden. " + "(id=" + artikel.getId() + ">)");
+
+        articles.add(artikel);
+        saveArticlesList(articles);
+        System.out.println("Info: Artikel " + artikel.getId() + " added.");
     }
 
     @Override
     public void deleteArtikel(int id) {
-
-        if(getArtikel(id) == null){
-            throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id="+ id + ">)");
+        if (getArtikel(id) == null) {
+            throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id=" + id + ">)");
         }
-        else {
-            artikels.remove(getArtikel(id));
-            try{
-                FileOutputStream fileOut = new FileOutputStream(dataName);
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(artikels);
-                fileOut.close();
-                out.close();
-            }catch (IOException e) {
+        articles.remove(getArtikel(id));
+        saveArticlesList(articles);
+        System.out.println("Info: Artikel " +  id +  " deleted.");
+    }
+
+    private void saveArticlesList(List<Artikel> artikelList) {
+        FileOutputStream fileOut = null;
+        ObjectOutputStream out = null;
+        try {
+            fileOut = new FileOutputStream(dataName);
+            out = new ObjectOutputStream(fileOut);
+            out.writeObject(articles);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            closeStream(fileOut);
+            closeStream(out);
+        }
+    }
+
+    private static void closeStream(Closeable c) {
+        if (c != null) {
+            try {
+                c.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("Product: " + id + " deleted!");
     }
 }

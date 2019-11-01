@@ -51,15 +51,15 @@ public class DVD extends Artikel {
 		else if(this.ageRating == 16){
 			rabatt = 5;
 		}
-		return (double)rabatt/100;
+		return rabatt;
 	}
 
 	@Override
 	public String toString() {
-		return "Typ:           DVD" + "\n" +
+		return "Typ:        DVD" + "\n" +
 				super.toString() 		+ "\n" +
-				"Preis:         " + doubleFormat.format(this.preis()).replace(',','.') + "\n" +
-				"Dauer:         " + this.duration+ "\n" +
-				"Freigabe:       " + this.ageRating;
+				"Preis:      " + doubleFormat.format(this.preis()).replace(',','.') + "\n" +
+				"Dauer:      " + this.duration+ "\n" +
+				"Freigabe:   " + this.ageRating;
 	}
 }
