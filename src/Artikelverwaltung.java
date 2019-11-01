@@ -17,7 +17,11 @@ public class Artikelverwaltung {
 	}
 
 	void showArtikel(int id) throws IOException, ClassNotFoundException {
-		System.out.println(control.getArtikel(id));
+		if(control.getArtikel(id) == null){
+			throw new IllegalArgumentException("Artikel nicht vorhanden. " + "(id=" + id + ")");
+		}else{
+			System.out.println(control.getArtikel(id));
+		}
 	}
 
 	void showAllArtikel() throws IOException, ClassNotFoundException {

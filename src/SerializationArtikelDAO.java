@@ -60,7 +60,7 @@ public class SerializationArtikelDAO implements ArtikelDAO, Serializable {
     @Override
     public void deleteArtikel(int id) {
         if (getArtikel(id) == null) {
-            throw new IllegalArgumentException("Error: Artikel nicht vorhanden. " + "(id=" + id + ">)");
+            throw new IllegalArgumentException("Artikel nicht vorhanden. " + "(id=" + id + ")");
         }
         articles.remove(getArtikel(id));
         saveArticlesList();

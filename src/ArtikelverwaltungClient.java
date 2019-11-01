@@ -13,7 +13,18 @@ public class ArtikelverwaltungClient {
         Artikelverwaltung control;
         String dataName = args[0];
         File f = new File(dataName);
+        int id;
+        int pages;
+        double price;
+        String titel;
+        String publisher;
+        int publicationDate;
+        int duration;
+        int ageRating;
 
+        if(args.length < 2){
+            throw new IllegalArgumentException("Parameter ungueltig.");
+        }
         if (f.isFile() && f.canRead()) {
             control = new Artikelverwaltung(dataName);
         }
@@ -25,31 +36,35 @@ public class ArtikelverwaltungClient {
             fileOut.close();
             out.close();
         }
-
         switch (args[1]) {
             case "add":
                 switch(args[2]){
                     case "buch":
-                        int id = Integer.parseInt(args[3]);
-                        String titel = args[4];
-                        String publisher = args[5];
-                        int publicationDate = Integer.parseInt(args[6]);
-                        double price = Double.parseDouble(args[7]);
-                        int pages = Integer.parseInt(args[8]);
+                        try{
+                            id = Integer.parseInt(args[3]);
+                            titel = args[4];
+                            publisher = args[5];
+                            publicationDate = Integer.parseInt(args[6]);
+                            price = Double.parseDouble(args[7]);
+                            pages = Integer.parseInt(args[8]);
+                        }catch (Exception e){
+                            throw new IllegalArgumentException("Parameter ungueltig.");
+                        }
+
                         control.addArtikel(new Buch(id, titel, publisher, publicationDate, price, pages));
-                        control.showAllArtikel();
-                        System.out.println(control.artikelAmount());
-                        control.lastAddedArtikel();
-                        System.out.println(control.averagePrice());
                         break;
                     case "dvd":
-                         id = Integer.parseInt(args[3]);
-                         titel = args[4];
-                         publisher = args[5];
-                         publicationDate = Integer.parseInt(args[6]);
-                         price = Double.parseDouble(args[7]);
-                         int duration = Integer.parseInt(args[8]);
-                         int ageRating = Integer.parseInt(args[9]);
+                        try{
+                            id = Integer.parseInt(args[3]);
+                            titel = args[4];
+                            publisher = args[5];
+                            publicationDate = Integer.parseInt(args[6]);
+                            price = Double.parseDouble(args[7]);
+                            duration = Integer.parseInt(args[8]);
+                            ageRating = Integer.parseInt(args[9]);
+                        }catch (Exception e){
+                            throw new IllegalArgumentException("Parameter ungueltig.");
+                        }
                         control.addArtikel(new DVD(id, titel, publisher, publicationDate, price, duration, ageRating));
                         break;
                 }

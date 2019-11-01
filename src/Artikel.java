@@ -67,12 +67,12 @@ public abstract class Artikel implements Serializable {
         if(publicationDate <= intCurrDate)
           this.publicationDate = publicationDate;
         else
-            throw new IllegalArgumentException("Error: Erscheinungsjahr ungueltig.");
+            throw new IllegalArgumentException("Erscheinungsjahr ungueltig.");
         this.publisher = publisher;
         if(price >= 0)
             this.price = price;
         else
-            throw new IllegalArgumentException("Price connot be negativ");
+            throw new IllegalArgumentException("Parameter ungueltig.");
     }
 
    int alter(){

@@ -30,7 +30,10 @@ public class DVD extends Artikel {
 			this.ageRating = ageRating;
 		}
 		else{
-			throw new IllegalArgumentException("Error: Altersfreigabe ungueltig.");
+			throw new IllegalArgumentException("Altersfreigabe ungueltig.");
+		}
+		if(duration <= 0){
+			throw new IllegalArgumentException("Parameter ungueltig.");
 		}
 		this.duration = duration;
 	}
