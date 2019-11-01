@@ -54,7 +54,7 @@ public class testMain {
         control.deleteArtikel(1003);
 
         // test case last addes
-        control.lastAddedArtikel();
+        control.oldest();
 
 
 

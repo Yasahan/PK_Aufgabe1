@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,9 +61,18 @@ public class Artikelverwaltung {
 			return doubleFormat.format(count/tmp.size());
 		}
 	}
-	void lastAddedArtikel() throws IOException, ClassNotFoundException {
-		if(control.getArtikel().size() != 0){
-			System.out.println(control.getArtikel().get(control.getArtikel().size() - 1).getId());
-		}
+	void oldest() throws IOException, ClassNotFoundException {
+
+		List<Artikel> tmp = control.getArtikel();
+		List<Artikel> tmp3 = new ArrayList<Artikel>();
+		Artikel tmp2 = (control.getArtikel().stream().max((lop, rop) -> Integer.compare(lop.alter(), rop.alter())).orElse(null));
+		if(tmp2 == null)
+			return;
+		for(Artikel art : tmp)
+			if(art.alter() == tmp2.alter())
+				tmp3.add(art);
+		for(Artikel art : tmp3)
+			System.out.println("Id: " + art.getId());
+
 	}
 }

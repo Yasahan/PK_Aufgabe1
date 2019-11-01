@@ -87,7 +87,7 @@ public class ArtikelverwaltungClient {
                 System.out.println(control.averagePrice());
                 break;
             case "oldest":
-                control.lastAddedArtikel();
+                control.oldest();
                 break;
         }
     }
